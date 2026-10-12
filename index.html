@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Seaside Diary</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Yuji+Syuku&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fdf6ec;--card:#fffaf2;--ink:#4a3b35;--soft:#8a766b;--sea:#7fb7c9;--sea2:#cfe6ec;--peach:#f4b6a0;--sage:#b9cfa8;--sun:#f7d58b;--line:#ecdcc8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1f2326;--card:#2a2f33;--ink:#f3e8da;--soft:#b9a898;--sea:#6aa3b6;--sea2:#2d4650;--peach:#d9937b;--sage:#8aa47a;--sun:#d9b868;--line:#3b4247}}
+:root[data-theme="dark"]{--bg:#1f2326;--card:#2a2f33;--ink:#f3e8da;--soft:#b9a898;--sea:#6aa3b6;--sea2:#2d4650;--peach:#d9937b;--sage:#8aa47a;--sun:#d9b868;--line:#3b4247}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif;line-height:1.7;overflow-x:hidden}
+.scroll{position:absolute;writing-mode:vertical-rl;font-family:'Yuji Syuku','Hiragino Mincho ProN',serif;color:var(--soft);opacity:.55;letter-spacing:.35em;font-size:1.05rem;border-left:1px solid var(--line);padding-left:.6rem;pointer-events:none}
+.hero{position:relative;min-height:92vh;display:flex;flex-wrap:wrap-reverse;align-items:center;justify-content:center;gap:2.5rem;padding:3rem 3.2rem 6rem;background:linear-gradient(var(--sea2),var(--bg) 85%)}
+.sun{position:absolute;top:8%;right:12%;width:70px;height:70px;border-radius:50%;background:var(--sun);opacity:.7}
+.cloud{position:absolute;font-size:2rem;opacity:.6}
+.txt{max-width:26rem;text-align:left}.photo{flex:none;width:190px;height:260px;border-style:solid;border-color:#5a3a2e var(--card);border-width:14px 8px;border-radius:4px;box-shadow:10px 10px 0 var(--sea2),0 10px 26px #0003;background:var(--card);display:grid;place-items:center;cursor:pointer;overflow:hidden;position:relative;transform:rotate(3deg);transition:transform .3s}.photo::after{content:"旅";position:absolute;right:6px;bottom:6px;width:34px;height:34px;background:#c8462f;color:#fff;font-family:'Yuji Syuku',serif;display:grid;place-items:center;border-radius:4px;transform:rotate(-6deg);opacity:.92}
+.photo:hover{transform:rotate(-1deg) scale(1.04)}
+.photo img{width:100%;height:100%;object-fit:cover}
+.photo span{font-size:.85rem;color:var(--soft);padding:1rem}
+.hand{font-family:'Caveat',cursive;font-size:1.3rem;color:var(--peach);margin:1rem 0 0}
+h1{margin:.1rem 0 .4rem;font-size:clamp(1.8rem,6vw,2.6rem)}
+.intro{max-width:30rem;color:var(--soft);outline:none;border-radius:8px;padding:.2rem .5rem}
+.intro:focus,h1:focus{background:var(--card)}
+.tip{font-size:.75rem;color:var(--soft);opacity:.7}
+.wave{position:absolute;bottom:-1px;left:0;width:100%;height:60px;fill:var(--bg)}
+main{max-width:960px;margin:0 auto;padding:1rem 1.2rem 4rem;position:relative}
+h2{text-align:center;font-size:1.5rem;margin:1rem 0 .2rem}
+.sub{text-align:center;color:var(--soft);margin:0 0 2rem;font-family:'Yuji Syuku',serif;letter-spacing:.3em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.2rem}
+.card{background:var(--card);border:2px dashed var(--line);border-radius:22px;padding:1.4rem;text-align:center;cursor:pointer;font:inherit;color:inherit;transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:0 10px 22px #0001}
+.card .em{font-size:2.4rem;display:block}
+.card b{display:block;font-size:1.15rem;margin:.3rem 0}
+.card small{color:var(--soft)}
+.card .jp{display:block;font-family:'Yuji Syuku',serif;color:#c8462f;margin-top:.5rem;letter-spacing:.2em}
+.c0{background:linear-gradient(var(--card),var(--sea2))}.c1{background:linear-gradient(var(--card),#f9dccf55)}.c2{background:linear-gradient(var(--card),#d9e8cf55)}.c3{background:linear-gradient(var(--card),#f7e3ae55)}
+.ov{--pt:color-mix(in srgb,var(--p3,#2f6f8a) 62%,var(--ink));position:fixed;inset:0;background:color-mix(in srgb,var(--p2,var(--bg)) 28%,var(--bg));z-index:10;overflow-y:auto;padding:calc(1rem + env(safe-area-inset-top,0px)) 1.2rem calc(3rem + env(safe-area-inset-bottom,0px));display:none}
+.ov.on{display:block;animation:in .35s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}}
+.in{max-width:680px;margin:0 auto;position:relative;padding-right:2.6rem}
+.back{border:0;background:var(--card);border:2px solid var(--line);color:var(--ink);font:inherit;border-radius:99px;padding:.4rem 1rem;cursor:pointer;margin-bottom:1rem}
+details{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:.9rem 1.1rem;margin:.8rem 0}
+summary{cursor:pointer;font-weight:700;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary small{display:block;color:var(--soft);font-weight:400}
+details p{margin:.7rem 0 0;color:var(--ink)}
+.ovscroll{right:0;top:3rem}[hidden]{display:none!important}.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:1.1rem;margin:1.4rem 0 2rem;align-items:end}.tile{border:0;padding:0;font:inherit;color:#4a3b35;cursor:pointer;background:none;transition:transform .25s}.tile:nth-child(even){transform:translateY(14px)}.tile:hover{transform:translateY(-6px) rotate(-1.5deg)}.roof{display:block;height:32px;background:var(--p3);clip-path:polygon(50% 0,100% 100%,0 100%)}.tb{display:flex;flex-direction:column;align-items:center;background:var(--p2);border-bottom:6px solid var(--p1);border-radius:0 0 12px 12px;padding:.7rem .4rem 0;min-height:112px;box-shadow:inset 0 0 0 3px #fff6}.tb i{font:normal 600 .9rem 'Caveat',cursive;color:var(--p3)}.tb b{font-size:1.05rem}.tb small{font-family:'Yuji Syuku',serif;color:var(--p3);letter-spacing:.25em}.door{margin-top:auto;width:24px;height:30px;background:var(--p1);border-radius:12px 12px 0 0}.paper{background:var(--card);border-radius:18px;overflow:hidden;box-shadow:0 12px 30px #0002,0 0 0 2px var(--p1);margin:1.2rem 0}.banner svg{display:block;width:100%;height:130px}.pb{padding:1.2rem 1.4rem 1rem;outline:none}.meta{font-family:'Caveat',cursive;color:var(--pt);font-size:1.2rem;margin:0}.pb h3{font-size:1.6rem;margin:.2rem 0 .8rem}.lead::first-letter{float:left;font-size:3rem;line-height:.9;padding-right:.4rem;color:var(--pt);font-family:'Yuji Syuku',serif}.pol{float:right;margin:.2rem 0 .6rem 1rem;background:#fff;padding:.5rem .5rem .3rem;box-shadow:0 4px 10px #0003;transform:rotate(3deg);width:130px;color:#4a3b35;text-align:center;font-family:'Caveat',cursive}.pol div{height:100px;background:var(--p2);display:grid;place-items:center;font-family:'Zen Maru Gothic',sans-serif;font-size:.75rem}.pb blockquote{clear:both;margin:1rem 0;padding:.6rem 1rem;border-left:4px solid var(--p1);font-family:'Caveat',cursive;font-size:1.4rem;color:var(--pt);background:color-mix(in srgb,var(--p2) 30%,transparent)}.pn{display:flex;justify-content:space-between;padding:0 1rem 1rem}.pn button{border:2px solid var(--p1);background:none;color:var(--ink);font:inherit;border-radius:99px;padding:.3rem .9rem;cursor:pointer}
+footer{text-align:center;color:var(--soft);padding:2rem 1rem 3rem;font-family:'Yuji Syuku',serif;letter-spacing:.2em}
+.mode{position:fixed;top:calc(.8rem + env(safe-area-inset-top,0px));right:.8rem;z-index:5;border:0;background:var(--card);border-radius:50%;width:38px;height:38px;cursor:pointer;box-shadow:0 2px 8px #0002}
+@media(max-width:520px){.scroll{font-size:.9rem}.sun{right:20%}}
+</style>
+</head>
+<body>
+<button class="mode" id="mode" aria-label="Toggle theme">🌙</button>
+
+<header class="hero">
+  <div class="sun"></div><span class="cloud" style="top:14%;left:14%">☁️</span><span class="cloud" style="top:30%;right:20%;font-size:1.4rem">☁️</span>
+  <div class="scroll" style="left:.6rem;top:12%">海辺の町で、のんびり暮らす</div>
+  <div class="scroll" style="right:.6rem;top:22%">今日もいい日になりますように</div>
+  <div class="txt"><p class="hand">welcome, traveler ⚔️</p>
+  <h1 contenteditable id="name" spellcheck="false">Your Name</h1>
+  <p class="intro" contenteditable id="intro" spellcheck="false">Hi! I'm a slow-living wanderer who collects sunsets, snacks and small stories. Pull up a chair, the tea is warm.</p>
+  <p class="tip">(tap the name &amp; intro to edit them)</p></div>
+  <label class="photo" id="photo"><span>🎴<br>Tap to add<br>your portrait</span><input type="file" id="file" accept="image/*" hidden></label>
+  <svg class="wave" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0 30 Q150 0 300 30 T600 30 T900 30 T1200 30 V60 H0Z"/></svg>
+</header>
+
+<main>
+  <div class="scroll" style="left:-.2rem;top:2rem">ありがとう</div>
+  <h2>Come on in 🍵</h2>
+  <p class="sub">いらっしゃい</p>
+  <div class="grid" id="grid"></div>
+</main>
+<footer>また明日 · see you tomorrow 🌊</footer>
+
+<div class="ov" id="ov"><div class="in">
+  <div class="scroll ovscroll" id="ovjp"></div>
+  <button class="back" id="back">← back to the village</button>
+  <h2 id="ovt" style="text-align:left"></h2>
+  <p id="ovd" style="color:var(--soft);margin-top:0"></p>
+  <div class="tiles" id="posts"></div><div id="read" hidden></div>
+</div></div>
+
+<script>
+var S=[
+{e:"📜",t:"Blogs",s:"thoughts & little stories",jp:"日記",cls:"c0",d:"Slow thoughts from my slow days.",posts:[
+ ["A quiet morning by the window","Today","Write your story here. Tell us about the tea, the light, the thing that made you smile."],
+ ["Things I learned this month","This week","Replace this with your own post. Photos, lists, feelings, anything goes."]]},
+{e:"⛩️",t:"Trips",s:"places & wanderings",jp:"旅",cls:"c1",d:"Little adventures and the snacks I found.",posts:[
+ ["A seaside weekend","Add a date","Where did you go? What did you eat? Who did you meet along the way?"],
+ ["Next on my list","Soon","Dream destinations, packing lists and maps can live here."]]},
+{e:"🥁",t:"Music",s:"playlists & sounds",jp:"音楽",cls:"c2",d:"The songs that play in my head all day.",posts:[
+ ["On repeat this week","Add a date","List your favourite songs here, with artists and why you love them."],["My rainy-day playlist","Add a date","Paste a playlist link or write about the mood of the music."]]},
+{e:"🏮",t:"Memories",s:"placeholder, make it yours",jp:"思い出",cls:"c3",d:"Another spare card for photos, favourites or letters.",posts:[
+ ["First memory","Add a date","Use this space for whatever makes your heart feel warm."]]}];
+var g=document.getElementById('grid'),ov=document.getElementById('ov');
+S.forEach(function(x,i){var b=document.createElement('button');b.className='card '+x.cls;
+ b.innerHTML='<span class="em">'+x.e+'</span><b>'+x.t+'</b><small>'+x.s+'</small><span class="jp">'+x.jp+'</span>';
+ b.onclick=function(){open_(i)};g.appendChild(b)});
+function open_(i){var x=S[i];document.getElementById('ovt').textContent=x.e+' '+x.t;
+ document.getElementById('ovd').textContent=x.d;document.getElementById('ovjp').textContent=x.jp+'の記録';
+ tiles(i);
+ ov.classList.add('on');ov.scrollTop=0;document.body.style.overflow='hidden'}
+var T=[{n:'Blog',c:['#7fb7c9','#cfe6ec','#2f6f8a'],q:'Some days are made for slow walks and warm tea.'},{n:'Trip',c:['#f4a78f','#fbd9c9','#c8462f'],q:'The best part of any road is where it ends: the sea.'},{n:'Song',c:['#b9a7d6','#e4dcf1','#6d55a0'],q:'Turn it up and let the waves keep the beat.'},{n:'Memory',c:['#a9c79a','#dcebd0','#5b8a4a'],q:'Keep the small moments, they glow like lanterns.'}],cur=0,tv=document.getElementById('posts'),rd=document.getElementById('read');
+document.getElementById('back').onclick=function(){if(!rd.hidden){tiles(cur);ov.scrollTop=0}else{ov.classList.remove('on');document.body.style.overflow=''}};
+function tiles(i){cur=i;var t=T[i],s=ov.style,h='';s.setProperty('--p1',t.c[0]);s.setProperty('--p2',t.c[1]);s.setProperty('--p3',t.c[2]);
+ for(var k=1;k<=6;k++)h+='<button class="tile" onclick="read('+k+')"><span class="roof"></span><span class="tb"><i>0'+k+'</i><b>'+t.n+' '+k+'</b><small>'+S[i].jp+'</small><span class="door"></span></span></button>';
+ tv.innerHTML=h;tv.hidden=false;rd.hidden=true;document.getElementById('ovd').hidden=false}
+function read(k){var t=T[cur],n=t.n,key='post'+cur+'_'+k,d=ld(key);
+ var df='<p class="meta">'+n+' '+k+' · add a date</p><h3>Your '+n.toLowerCase()+' title goes here</h3><p class="lead">Tap anywhere on this page and start writing. Tell the story the way you would to a friend on a seaside bench.</p><figure class="pol"><div>add photo</div><figcaption>a little caption</figcaption></figure><p>Add more paragraphs, feelings and small details. Whatever you type here is saved on this device.</p><blockquote>'+t.q+'</blockquote><p>And end with something warm.</p>';
+ var sc='<svg viewBox="0 0 400 120" preserveAspectRatio="xMidYMax slice"><rect width="400" height="120" fill="var(--p2)"/><circle cx="320" cy="42" r="20" fill="var(--p3)" opacity=".7"/><rect x="40" y="62" width="40" height="34" fill="var(--p1)"/><path d="M34 62l26-20 26 20z" fill="var(--p3)"/><rect x="95" y="70" width="34" height="26" fill="var(--p1)"/><path d="M90 70l22-17 22 17z" fill="var(--p3)"/><rect x="190" y="38" width="14" height="58" fill="#fff"/><rect x="188" y="30" width="18" height="9" fill="var(--p3)"/><path d="M0 100q25-10 50 0t50 0 50 0 50 0 50 0 50 0 50 0 50 0V120H0z" fill="var(--p1)"/></svg>';
+ rd.innerHTML='<article class="paper"><div class="banner">'+sc+'</div><div class="pb" contenteditable spellcheck="false">'+(d||df)+'</div><div class="pn"><button onclick="read('+Math.max(1,k-1)+')">‹ prev</button><button onclick="tiles(cur)">all tiles</button><button onclick="read('+Math.min(6,k+1)+')">next ›</button></div></article>';
+ rd.querySelector('.pb').oninput=function(){sv(key,this.innerHTML)};
+ tv.hidden=true;rd.hidden=false;document.getElementById('ovd').hidden=true;ov.scrollTop=0}
+function ld(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function sv(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+var ph=document.getElementById('photo');
+function show(u){ph.innerHTML='<img alt="me" src="'+u+'"><input type="file" id="file" accept="image/*" hidden>';bind()}
+function bind(){document.getElementById('file').onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();
+ r.onload=function(){var im=new Image();im.onload=function(){var c=document.createElement('canvas'),m=360,k=Math.min(1,m/Math.max(im.width,im.height));
+  c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);var u=c.toDataURL('image/jpeg',.82);show(u);sv('photo',u)};im.src=r.result};r.readAsDataURL(f)}}
+bind();var p=ld('photo');if(p)show(p);
+['name','intro'].forEach(function(id){var el=document.getElementById(id),v=ld(id);if(v)el.textContent=v;el.oninput=function(){sv(id,el.textContent)}});
+var mb=document.getElementById('mode'),r=document.documentElement;
+mb.onclick=function(){var d=r.getAttribute('data-theme')==='dark'||(!r.getAttribute('data-theme')&&matchMedia('(prefers-color-scheme:dark)').matches);
+ r.setAttribute('data-theme',d?'light':'dark');mb.textContent=d?'🌙':'☀️'};
+</script>
+</body>
+</html>
