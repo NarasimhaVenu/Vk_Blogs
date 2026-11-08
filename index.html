@@ -402,7 +402,6 @@
       color:#a8553a;
       background:#c9795c14;
     }
-    .story .soon {color:#7d6f64;font-style:italic}
 
     /* ---- story photos ---- */
     .story-photos {
@@ -757,7 +756,7 @@
     /* =====================================================================
        HOW TO WRITE A BLOG  (this is the only part you need to edit)
 
-       Every blog has its own box:
+       Every blog has its own box. All of them are blank for now:
 
          {
            title:  "The Beach",              <- name on the little house
@@ -790,11 +789,7 @@
       {
         title:"The Beach",
         date:"",
-        text:`
-The sea has a strange way of making everything feel a little lighter. This is where my story begins.
-
-Replace this with the rest of your story. Start a new paragraph after a blank line.
-`,
+        text:``,
         quote:"",
         images:[]
       },
@@ -803,9 +798,7 @@ Replace this with the rest of your story. Start a new paragraph after a blank li
       {
         title:"The Night",
         date:"",
-        text:`
-Some nights are quiet enough to hear the thoughts we spend the day avoiding.
-`,
+        text:``,
         quote:"",
         images:[]
       },
@@ -814,9 +807,7 @@ Some nights are quiet enough to hear the thoughts we spend the day avoiding.
       {
         title:"There you were",
         date:"",
-        text:`
-Some people enter our stories so unexpectedly that we forget what the pages looked like before.
-`,
+        text:``,
         quote:"",
         images:[]
       },
@@ -825,9 +816,7 @@ Some people enter our stories so unexpectedly that we forget what the pages look
       {
         title:"The Summer I met Her",
         date:"",
-        text:`
-There are summers we remember for the weather, and others we remember for the people.
-`,
+        text:``,
         quote:"",
         images:[]
       },
@@ -836,9 +825,7 @@ There are summers we remember for the weather, and others we remember for the pe
       {
         title:"To the Girl who was not part of the plan",
         date:"",
-        text:`
-Not every beautiful chapter was written into the original plan.
-`,
+        text:``,
         quote:"",
         images:[]
       },
@@ -847,9 +834,7 @@ Not every beautiful chapter was written into the original plan.
       {
         title:"Is it Meant to be..",
         date:"",
-        text:`
-Maybe the answer is not always something we are meant to find right away.
-`,
+        text:``,
         quote:"",
         images:[]
       },
@@ -858,9 +843,7 @@ Maybe the answer is not always something we are meant to find right away.
       {
         title:"Will there be a Perfect Ending",
         date:"",
-        text:`
-Perhaps a perfect ending is simply one that feels true to the journey.
-`,
+        text:``,
         quote:"",
         images:[]
       },
@@ -946,13 +929,6 @@ Perhaps a perfect ending is simply one that feels true to the journey.
         const quote = document.createElement("blockquote");
         quote.textContent = blog.quote;
         box.appendChild(quote);
-      }
-
-      if(!box.children.length) {
-        const soon = document.createElement("p");
-        soon.className = "soon";
-        soon.textContent = "This story is still being written. Come back soon 🌊";
-        box.appendChild(soon);
       }
     }
 
