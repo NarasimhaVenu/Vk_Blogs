@@ -1,183 +1,889 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>My Seaside Diary</title>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Yuji+Syuku&family=Caveat:wght@600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#fdf6ec;--card:#fffaf2;--ink:#4a3b35;--soft:#8a766b;--sea:#7fb7c9;--sea2:#cfe6ec;--peach:#f4b6a0;--sage:#b9cfa8;--sun:#f7d58b;--line:#ecdcc8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1f2326;--card:#2a2f33;--ink:#f3e8da;--soft:#b9a898;--sea:#6aa3b6;--sea2:#2d4650;--peach:#d9937b;--sage:#8aa47a;--sun:#d9b868;--line:#3b4247}}
-:root[data-theme="dark"]{--bg:#1f2326;--card:#2a2f33;--ink:#f3e8da;--soft:#b9a898;--sea:#6aa3b6;--sea2:#2d4650;--peach:#d9937b;--sage:#8aa47a;--sun:#d9b868;--line:#3b4247}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'Zen Maru Gothic','Hiragino Maru Gothic ProN',sans-serif;line-height:1.7;overflow-x:hidden}
-.scroll{position:absolute;writing-mode:vertical-rl;font-family:'Yuji Syuku','Hiragino Mincho ProN',serif;color:var(--soft);opacity:.55;letter-spacing:.35em;font-size:1.05rem;border-left:1px solid var(--line);padding-left:.6rem;pointer-events:none}
-.hero{position:relative;min-height:92vh;display:flex;flex-wrap:wrap-reverse;align-items:center;justify-content:center;gap:2.5rem;padding:3rem 3.2rem 6rem;background:linear-gradient(var(--sea2),var(--bg) 85%)}
-.sun{position:absolute;top:8%;right:12%;width:70px;height:70px;border-radius:50%;background:var(--sun);opacity:.7}
-.cloud{position:absolute;font-size:2rem;opacity:.6}
-.txt{max-width:26rem;text-align:left}.photo{flex:none;width:190px;height:260px;border-style:solid;border-color:#5a3a2e var(--card);border-width:14px 8px;border-radius:4px;box-shadow:10px 10px 0 var(--sea2),0 10px 26px #0003;background:var(--card);display:grid;place-items:center;cursor:pointer;overflow:hidden;position:relative;transform:rotate(3deg);transition:transform .3s}.photo::after{content:"旅";position:absolute;right:6px;bottom:6px;width:34px;height:34px;background:#c8462f;color:#fff;font-family:'Yuji Syuku',serif;display:grid;place-items:center;border-radius:4px;transform:rotate(-6deg);opacity:.92}
-.photo:hover{transform:rotate(-1deg) scale(1.04)}
-.photo img{width:100%;height:100%;object-fit:cover}
-.photo span{font-size:.85rem;color:var(--soft);padding:1rem}
-.hand{font-family:'Caveat',cursive;font-size:1.3rem;color:var(--peach);margin:1rem 0 0}
-h1{margin:.1rem 0 .4rem;font-size:clamp(1.8rem,6vw,2.6rem)}
-.intro{max-width:30rem;color:var(--soft);outline:none;border-radius:8px;padding:.2rem .5rem}
-.intro:focus,h1:focus{background:var(--card)}
-.tip{font-size:.75rem;color:var(--soft);opacity:.7}
-.wave{position:absolute;bottom:-1px;left:0;width:100%;height:60px;fill:var(--bg)}
-main{max-width:960px;margin:0 auto;padding:1rem 1.2rem 4rem;position:relative}
-h2{text-align:center;font-size:1.5rem;margin:1rem 0 .2rem}
-.sub{text-align:center;color:var(--soft);margin:0 0 2rem;font-family:'Yuji Syuku',serif;letter-spacing:.3em}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.2rem}
-.card{background:var(--card);border:2px dashed var(--line);border-radius:22px;padding:1.4rem;text-align:center;cursor:pointer;font:inherit;color:inherit;transition:transform .25s,box-shadow .25s}
-.card:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:0 10px 22px #0001}
-.card .em{font-size:2.4rem;display:block}
-.card b{display:block;font-size:1.15rem;margin:.3rem 0}
-.card small{color:var(--soft)}
-.card .jp{display:block;font-family:'Yuji Syuku',serif;color:#c8462f;margin-top:.5rem;letter-spacing:.2em}
-.c0{background:linear-gradient(var(--card),var(--sea2))}.c1{background:linear-gradient(var(--card),#f9dccf55)}.c2{background:linear-gradient(var(--card),#d9e8cf55)}.c3{background:linear-gradient(var(--card),#f7e3ae55)}
-.ov{--pt:color-mix(in srgb,var(--p3,#2f6f8a) 62%,var(--ink));position:fixed;inset:0;background:color-mix(in srgb,var(--p2,var(--bg)) 28%,var(--bg));z-index:10;overflow-y:auto;padding:calc(1rem + env(safe-area-inset-top,0px)) 1.2rem calc(3rem + env(safe-area-inset-bottom,0px));display:none}
-.ov.on{display:block;animation:in .35s}
-@keyframes in{from{opacity:0;transform:translateY(20px)}}
-.in{max-width:680px;margin:0 auto;position:relative;padding-right:2.6rem}
-.back{border:0;background:var(--card);border:2px solid var(--line);color:var(--ink);font:inherit;border-radius:99px;padding:.4rem 1rem;cursor:pointer;margin-bottom:1rem}
-details{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:.9rem 1.1rem;margin:.8rem 0}
-summary{cursor:pointer;font-weight:700;list-style:none}
-summary::-webkit-details-marker{display:none}
-summary small{display:block;color:var(--soft);font-weight:400}
-details p{margin:.7rem 0 0;color:var(--ink)}
-.ovscroll{right:0;top:3rem}[hidden]{display:none!important}.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1.1rem;margin:1.4rem 0 2rem;align-items:end}.tile{border:0;padding:0;font:inherit;color:#4a3b35;cursor:pointer;background:none;transition:transform .25s}.tile:nth-child(even){transform:translateY(14px)}.tile:hover{transform:translateY(-6px) rotate(-1.5deg)}.roof{display:block;height:32px;background:var(--p3);clip-path:polygon(50% 0,100% 100%,0 100%)}.tb{display:flex;flex-direction:column;align-items:center;background:var(--p2);border-bottom:6px solid var(--p1);border-radius:0 0 12px 12px;padding:.7rem .6rem 0;min-height:128px;box-shadow:inset 0 0 0 3px #fff6;text-align:center}.tb i{font:normal 600 .9rem 'Caveat',cursive;color:var(--p3)}.tb b{font-size:1rem;line-height:1.3;margin:.1rem 0 .2rem;overflow-wrap:anywhere}.tb small{font-family:'Yuji Syuku',serif;color:var(--p3);letter-spacing:.25em;margin-bottom:.6rem}.door{margin-top:auto;width:24px;height:30px;background:var(--p1);border-radius:12px 12px 0 0}.paper{background:var(--card);border-radius:18px;overflow:hidden;box-shadow:0 12px 30px #0002,0 0 0 2px var(--p1);margin:1.2rem 0}.banner svg{display:block;width:100%;height:130px}.pb{padding:1.2rem 1.4rem 1rem;outline:none}.meta{font-family:'Caveat',cursive;color:var(--pt);font-size:1.2rem;margin:0}.pb h3{font-size:1.6rem;margin:.2rem 0 .8rem}.lead::first-letter{float:left;font-size:3rem;line-height:.9;padding-right:.4rem;color:var(--pt);font-family:'Yuji Syuku',serif}.pol{float:right;margin:.2rem 0 .6rem 1rem;background:#fff;padding:.5rem .5rem .3rem;box-shadow:0 4px 10px #0003;transform:rotate(3deg);width:130px;color:#4a3b35;text-align:center;font-family:'Caveat',cursive}.pol div{height:100px;background:var(--p2);display:grid;place-items:center;font-family:'Zen Maru Gothic',sans-serif;font-size:.75rem}.pb blockquote{clear:both;margin:1rem 0;padding:.6rem 1rem;border-left:4px solid var(--p1);font-family:'Caveat',cursive;font-size:1.4rem;color:var(--pt);background:color-mix(in srgb,var(--p2) 30%,transparent)}.pn{display:flex;justify-content:space-between;padding:0 1rem 1rem}.pn button{border:2px solid var(--p1);background:none;color:var(--ink);font:inherit;border-radius:99px;padding:.3rem .9rem;cursor:pointer}
-.gal{padding:0 1.4rem 1.4rem;clear:both}
-.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:1.3rem 1.1rem}
-.shot{margin:0;background:#fff;padding:.45rem .45rem .2rem;box-shadow:0 4px 10px #0003;transform:rotate(-2deg);transition:transform .25s}
-.shot:nth-child(even){transform:rotate(2deg)}
-.shot:hover{transform:rotate(0) scale(1.04)}
-.shot img{display:block;width:100%;aspect-ratio:1;object-fit:cover;cursor:zoom-in;background:var(--p2)}
-.shot figcaption{min-height:1.7rem;padding-top:.2rem;font-family:'Caveat',cursive;font-size:1.05rem;line-height:1.3;text-align:center;color:#4a3b35}
-.addph{display:grid;place-items:center;text-align:center;min-height:110px;padding:1rem;border:2px dashed var(--p1);border-radius:14px;background:color-mix(in srgb,var(--p2) 30%,transparent);color:var(--pt);font-size:.9rem}
-.lb{position:fixed;inset:0;z-index:20;background:#000c;display:grid;place-items:center;padding:1rem;cursor:zoom-out}
-.lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px;box-shadow:0 10px 40px #000a}
-footer{text-align:center;color:var(--soft);padding:2rem 1rem 3rem;font-family:'Yuji Syuku',serif;letter-spacing:.2em}
-.mode{position:fixed;top:calc(.8rem + env(safe-area-inset-top,0px));right:.8rem;z-index:5;border:0;background:var(--card);border-radius:50%;width:38px;height:38px;cursor:pointer;box-shadow:0 2px 8px #0002}
-@media(max-width:520px){.scroll{font-size:.9rem}.sun{right:20%}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#26363a">
+  <title>VK — The Wanderer's Village</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Kalam:wght@400;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sky:#304e57;
+      --ground:#20282b;
+      --paper:#f1e5d5;
+      --muted:#b9a797;
+      --accent:#c9795c;
+      --gold:#d9b36d;
+      --blue:#30738f;
+      --wall:#d0e7ee;
+      --door:#7db6c9;
+    }
+    * {box-sizing:border-box}
+    html {scroll-behavior:smooth}
+    body {
+      margin:0;
+      background:var(--ground);
+      color:var(--paper);
+      font-family:"Zen Maru Gothic","DM Sans",sans-serif;
+      overflow-x:hidden;
+    }
+    button,input,textarea {font:inherit}
+    button {cursor:pointer}
+    button:focus-visible,a:focus-visible {
+      outline:3px solid var(--gold);
+      outline-offset:4px;
+    }
+    .hidden {display:none!important}
+    .page {min-height:100vh}
+    .topbar {
+      position:absolute;
+      z-index:20;
+      top:0;left:0;right:0;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:23px 5%;
+    }
+    .brand {
+      color:var(--paper);
+      font-weight:700;
+      letter-spacing:3px;
+      background:none;
+      border:0;
+      font-size:15px;
+    }
+    .actions {display:flex;gap:12px}
+    .round {
+      width:43px;height:43px;
+      border:1px solid #ffffff30;
+      border-radius:50%;
+      background:#1b2528b8;
+      color:var(--gold);
+      font-size:19px;
+    }
+    .hero {
+      min-height:100vh;
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(
+        180deg,#304f58 0%,#354f53 38%,
+        #665b50 67%,#20282b 100%
+      );
+    }
+    .hero.night {
+      background:linear-gradient(
+        180deg,#101d30 0%,#20323e 53%,
+        #263a43 76%,#171e25 100%
+      );
+    }
+    .celestial {
+      position:absolute;
+      right:15%;top:13%;
+      width:100px;height:100px;
+      border-radius:50%;
+      background:#e0b978;
+      box-shadow:0 0 85px #e6bd7950;
+      transition:.5s;
+    }
+    .night .celestial {
+      background:#e5e6d6;
+      box-shadow:0 0 90px #dbe6ff60;
+    }
+    .cloud {
+      position:absolute;
+      color:#ffffff7c;
+      font-size:36px;
+      animation:float 9s ease-in-out infinite alternate;
+    }
+    .cloud.one {top:22%;left:15%}
+    .cloud.two {top:30%;right:19%;font-size:25px;animation-delay:-3s}
+    @keyframes float {
+      to {transform:translateX(35px)}
+    }
+    .mountain {
+      position:absolute;
+      bottom:22%;
+      width:100%;height:32%;
+      background:#273c42;
+      clip-path:polygon(
+        0 100%,0 72%,13% 35%,25% 80%,
+        43% 19%,58% 83%,75% 36%,
+        89% 73%,100% 30%,100% 100%
+      );
+      opacity:.5;
+    }
+    .sea {
+      position:absolute;
+      bottom:0;width:100%;height:25%;
+      background:linear-gradient(#365c62,#243c44);
+    }
+    .sea:after {
+      content:"";
+      position:absolute;inset:0;
+      background:repeating-linear-gradient(
+        175deg,transparent 0 28px,
+        #ffffff10 29px 30px
+      );
+    }
+    .hero-copy {
+      position:relative;
+      z-index:5;
+      padding:23vh 20px 0;
+      text-align:center;
+      max-width:850px;
+      margin:auto;
+    }
+    .eyebrow {
+      color:#e6ac92;
+      font-family:Kalam,cursive;
+      letter-spacing:2px;
+    }
+    h1 {
+      font-size:clamp(42px,6vw,78px);
+      line-height:1.16;
+      margin:16px 0;
+      letter-spacing:-2px;
+    }
+    .hero-copy p {
+      color:#d9c9b7;
+      font-size:18px;
+      line-height:1.8;
+    }
+    .primary {
+      background:var(--accent);
+      border:0;
+      border-radius:30px;
+      padding:14px 28px;
+      color:#fff;
+      font-weight:700;
+      margin-top:22px;
+      transition:.2s;
+    }
+    .primary:hover {transform:translateY(-4px);background:#dc8a6c}
+    .village {
+      position:absolute;
+      bottom:8%;
+      left:50%;
+      transform:translateX(-50%);
+      width:min(1000px,95%);
+      display:flex;
+      align-items:end;
+      justify-content:center;
+      gap:3%;
+      pointer-events:none;
+    }
+    .building {
+      position:relative;
+      width:18%;
+      height:clamp(80px,11vw,155px);
+      background:#b78c70;
+      border:5px solid #60483e;
+      border-radius:2px 2px 8px 8px;
+      box-shadow:12px 13px 0 #172c3299;
+    }
+    .building:before {
+      content:"";
+      position:absolute;
+      bottom:100%;left:-15%;
+      width:130%;height:42px;
+      background:#4b3433;
+      clip-path:polygon(50% 0,100% 85%,96% 100%,4% 100%,0 85%);
+    }
+    .building:after {
+      content:"";
+      position:absolute;
+      bottom:0;left:35%;
+      width:30%;height:55%;
+      background:#463b37;
+      border-radius:35px 35px 0 0;
+    }
+    .building:nth-child(2) {height:185px;background:#d0a17d}
+    .building:nth-child(3) {height:130px;background:#8d9c91}
+    .building:nth-child(4) {height:155px;background:#bc8972}
+    .lantern {
+      position:absolute;
+      bottom:18%;left:8%;
+      color:#f2b466;
+      font-size:29px;
+      text-shadow:0 0 18px #f5a957;
+    }
+    .vertical {
+      position:absolute;
+      top:23%;left:22px;
+      writing-mode:vertical-rl;
+      color:#d8c4ac80;
+      letter-spacing:7px;
+      font-size:15px;
+    }
+    .vertical.right {left:auto;right:22px}
+    .section {
+      max-width:1180px;
+      margin:auto;
+      padding:100px 25px;
+    }
+    .section-title {text-align:center;margin-bottom:55px}
+    .section-title h2 {
+      font-size:clamp(28px,4vw,42px);
+      margin:0 0 12px;
+    }
+    .section-title p {color:var(--muted)}
+    .destinations {
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:22px;
+    }
+    .destination {
+      min-height:245px;
+      background:linear-gradient(150deg,#303b3e,#3d4c50);
+      border:1px solid #ffffff25;
+      border-radius:23px;
+      color:var(--paper);
+      padding:35px 14px;
+      text-align:center;
+      transition:.25s;
+    }
+    .destination:nth-child(2) {
+      background:linear-gradient(150deg,#383a3d,#5c5050);
+    }
+    .destination:nth-child(3) {
+      background:linear-gradient(150deg,#34413f,#52605c);
+    }
+    .destination:nth-child(4) {
+      background:linear-gradient(150deg,#383b38,#605b4c);
+    }
+    .destination:hover {
+      transform:translateY(-10px);
+      border-color:var(--gold);
+      box-shadow:0 20px 40px #0003;
+    }
+    .destination .emoji {font-size:43px}
+    .destination h3 {font-size:22px;margin:20px 0 8px}
+    .destination p {color:#c5b5a6;font-size:14px}
+    .destination small {color:#e27b59;font-size:17px}
+    footer {
+      text-align:center;
+      padding:55px 15px;
+      color:var(--muted);
+      letter-spacing:3px;
+    }
+    .interior {
+      background:#4e575a;
+      min-height:100vh;
+      padding:85px max(25px,5vw);
+    }
+    .back {
+      border:1px solid #ffffff4d;
+      border-radius:25px;
+      background:#263337;
+      color:var(--paper);
+      padding:11px 20px;
+      margin-bottom:40px;
+    }
+    .interior-header {
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      align-items:flex-start;
+      margin-bottom:40px;
+    }
+    .interior h2 {font-size:38px;margin:0}
+    .interior .subtitle {
+      color:#c5b09d;
+      font-size:24px;
+      margin-top:12px;
+    }
+    .japanese-side {
+      writing-mode:vertical-rl;
+      color:#b3a99f;
+      letter-spacing:8px;
+      border-left:1px solid #ffffff20;
+      padding-left:18px;
+    }
+    .houses {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:45px 28px;
+      align-items:center;
+      padding:10px 0 50px;
+    }
+    .house {
+      width:100%;
+      position:relative;
+      padding:0;
+      background:transparent;
+      border:0;
+      color:#4d3835;
+      transition:transform .25s;
+      filter:drop-shadow(0 8px 0 #7bb6c9);
+    }
+    .house:nth-child(3n+2) {transform:translateY(22px)}
+    .house:hover {transform:translateY(-9px) scale(1.025)}
+    .house:nth-child(3n+2):hover {
+      transform:translateY(10px) scale(1.025);
+    }
+    .roof {
+      height:52px;
+      background:var(--blue);
+      clip-path:polygon(50% 0,100% 100%,0 100%);
+    }
+    .house-body {
+      min-height:192px;
+      background:var(--wall);
+      border:5px solid #edf7f8;
+      border-bottom:0;
+      border-radius:0 0 15px 15px;
+      position:relative;
+      padding:16px 12px 50px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+    }
+    .number {
+      color:#276c8b;
+      font-style:italic;
+      font-weight:700;
+    }
+    .house h3 {
+      margin:8px 0;
+      font-size:clamp(16px,2vw,23px);
+      line-height:1.35;
+    }
+    .house .jp {
+      color:#267093;
+      letter-spacing:5px;
+      font-weight:700;
+      font-size:19px;
+    }
+    .door {
+      position:absolute;
+      width:38px;height:47px;
+      bottom:0;left:50%;
+      transform:translateX(-50%);
+      background:var(--door);
+      border-radius:25px 25px 0 0;
+    }
+    .reader {
+      position:fixed;
+      z-index:100;
+      inset:0;
+      background:#0b1518dc;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+    .reader-card {
+      width:min(690px,100%);
+      max-height:90vh;
+      overflow:auto;
+      background:#f0e4d3;
+      color:#3b3835;
+      padding:clamp(25px,5vw,55px);
+      border-radius:12px;
+      box-shadow:0 20px 80px #0008;
+    }
+    .reader-card h2 {font-size:34px}
+    .reader-card p {line-height:2;font-size:17px}
+    .reader-card .back {margin-bottom:12px}
+    .simple-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+      margin-top:40px;
+    }
+    .simple-card {
+      background:#ffffff10;
+      border:1px solid #ffffff22;
+      border-radius:18px;
+      padding:28px;
+      min-height:190px;
+    }
+    .simple-card .emoji {font-size:35px}
+    .simple-card h3 {font-size:21px}
+    .simple-card p {color:#d1c0b0}
+    .guestbook {
+      max-width:650px;
+      margin:60px auto;
+      background:#ffffff0c;
+      border:1px solid #ffffff25;
+      border-radius:20px;
+      padding:30px;
+    }
+    input,textarea {
+      display:block;
+      width:100%;
+      padding:13px;
+      margin:12px 0;
+      border:1px solid #ffffff35;
+      border-radius:10px;
+      background:#182529;
+      color:white;
+    }
+    textarea {min-height:110px;resize:vertical}
+    .message {
+      border-bottom:1px solid #ffffff22;
+      padding:15px 0;
+      overflow-wrap:anywhere;
+    }
+    .message p {color:var(--muted)}
+    .cat {
+      position:fixed;
+      right:25px;bottom:22px;
+      z-index:30;
+      background:#29383c;
+      border:1px solid #ffffff44;
+      border-radius:50%;
+      width:58px;height:58px;
+      font-size:28px;
+      box-shadow:0 8px 20px #0005;
+      animation:catbob 3s ease-in-out infinite;
+    }
+    @keyframes catbob {
+      50% {transform:translateY(-7px)}
+    }
+    .toast {
+      position:fixed;
+      right:25px;bottom:90px;
+      z-index:31;
+      max-width:270px;
+      background:#f0e4d3;
+      color:#34383a;
+      padding:15px 20px;
+      border-radius:15px;
+      box-shadow:0 8px 30px #0005;
+    }
+    @media(max-width:850px) {
+      .destinations {grid-template-columns:repeat(2,1fr)}
+      .houses {grid-template-columns:repeat(2,minmax(0,1fr))}
+      .simple-grid {grid-template-columns:repeat(2,1fr)}
+      .hero-copy {padding-top:26vh}
+      .building:nth-child(2) {height:140px}
+    }
+    @media(max-width:520px) {
+      .destinations,.simple-grid {grid-template-columns:1fr}
+      .houses {grid-template-columns:1fr;gap:42px}
+      .house {max-width:360px;margin:auto}
+      .house:nth-child(3n+2) {transform:none}
+      .interior {padding:80px 22px}
+      .interior h2 {font-size:30px}
+      .interior .subtitle {font-size:18px}
+      .hero-copy p {font-size:15px}
+      .vertical {display:none}
+      .village {bottom:13%}
+      .building {height:70px}
+      .building:nth-child(2) {height:100px}
+      .building:nth-child(4) {height:85px}
+    }
+    @media(prefers-reduced-motion:reduce) {
+      *,*:before,*:after {
+        animation:none!important;
+        transition:none!important;
+        scroll-behavior:auto!important;
+      }
+    }
+  </style>
 </head>
 <body>
-<button class="mode" id="mode" aria-label="Toggle theme">🌙</button>
-<header class="hero">
-<div class="sun"></div><span class="cloud" style="top:14%;left:14%">☁️</span><span class="cloud" style="top:30%;right:20%;font-size:1.4rem">☁️</span>
-<div class="scroll" style="left:.6rem;top:12%">海辺の町で、のんびり暮らす</div>
-<div class="scroll" style="right:.6rem;top:22%">今日もいい日になりますように</div>
-<div class="txt"><p class="hand">welcome, traveler ⚔️</p>
-<h1 contenteditable id="name" spellcheck="false">Your Name</h1>
-<p class="intro" contenteditable id="intro" spellcheck="false">Hi! I'm a slow-living wanderer who collects sunsets, snacks and small stories. Pull up a chair, the tea is warm.</p>
-<p class="tip">(tap the name &amp; intro to edit them)</p></div>
-<label class="photo" id="photo"><span>🎴<br>Tap to add<br>your portrait</span><input type="file" id="file" accept="image/*" hidden></label>
-<svg class="wave" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0 30 Q150 0 300 30 T600 30 T900 30 T1200 30 V60 H0Z"/></svg>
-</header>
-<main>
-<div class="scroll" style="left:-.2rem;top:2rem">ありがとう</div>
-<h2>Come on in 🍵</h2>
-<p class="sub">いらっしゃい</p>
-<div class="grid" id="grid"></div>
-</main>
-<footer>また明日 · see you tomorrow 🌊</footer>
-<div class="ov" id="ov"><div class="in">
-<div class="scroll ovscroll" id="ovjp"></div>
-<button class="back" id="back">← back to the village</button>
-<h2 id="ovt" style="text-align:left"></h2>
-<p id="ovd" style="color:var(--soft);margin-top:0"></p>
-<div class="tiles" id="posts"></div><div id="read" hidden></div>
-</div></div>
-<div class="lb" id="lb" hidden><img alt=""></div>
-<script>
-/* ------------------------------------------------------------------
-   Each section:  n     = number of tiles
-                  names = title of each tile ("" = plain "Blog 8" label)
-                  imgs  = photos for each tile, in the same order as names.
-                          Files live in the  images/  folder of the repo.
 
-   Each tile's photos are a list. A photo is either a file name,
-   or [file name, caption]. Example for Blog 1:
-       ["beach1.jpg", ["beach2.jpg","Golden hour"]]
-   Leave a tile's list empty ([]) and it shows a placeholder.
-------------------------------------------------------------------- */
-var IMG_DIR="images/";
-var S=[
-{e:"📜",t:"Blogs",s:"thoughts & little stories",jp:"日記",cls:"c0",d:"Slow thoughts from my slow days.",n:10,names:[
-"The Beach",
-"The Night",
-"There you were",
-"The Summer I met Her",
-"To the Girl who was not part of the plan",
-"Is it Meant to be..",
-"Will there be a Perfect Ending",
-"",
-"",
-""],
-imgs:[
-[],   /* 1  The Beach */
-[],   /* 2  The Night */
-[],   /* 3  There you were */
-[],   /* 4  The Summer I met Her */
-[],   /* 5  To the Girl who was not part of the plan */
-[],   /* 6  Is it Meant to be.. */
-[],   /* 7  Will there be a Perfect Ending */
-[],   /* 8 */
-[],   /* 9 */
-[]    /* 10 */
-]},
-{e:"⛩️",t:"Trips",s:"places & wanderings",jp:"旅",cls:"c1",d:"Little adventures and the snacks I found.",n:6,names:[],imgs:[]},
-{e:"🥁",t:"Music",s:"playlists & sounds",jp:"音楽",cls:"c2",d:"The songs that play in my head all day.",n:6,names:[],imgs:[]},
-{e:"🏮",t:"Memories",s:"placeholder, make it yours",jp:"思い出",cls:"c3",d:"Another spare card for photos, favourites or letters.",n:6,names:[],imgs:[]}];
-var g=document.getElementById('grid'),ov=document.getElementById('ov');
-S.forEach(function(x,i){var b=document.createElement('button');b.className='card '+x.cls;
-b.innerHTML='<span class="em">'+x.e+'</span><b>'+x.t+'</b><small>'+x.s+'</small><span class="jp">'+x.jp+'</span>';
-b.onclick=function(){open_(i)};g.appendChild(b)});
-function open_(i){var x=S[i];document.getElementById('ovt').textContent=x.e+' '+x.t;
-document.getElementById('ovd').textContent=x.d;document.getElementById('ovjp').textContent=x.jp+'の記録';
-tiles(i);
-ov.classList.add('on');ov.scrollTop=0;document.body.style.overflow='hidden'}
-var T=[{n:'Blog',c:['#7fb7c9','#cfe6ec','#2f6f8a'],q:'Some days are made for slow walks and warm tea.'},{n:'Trip',c:['#f4a78f','#fbd9c9','#c8462f'],q:'The best part of any road is where it ends: the sea.'},{n:'Song',c:['#b9a7d6','#e4dcf1','#6d55a0'],q:'Turn it up and let the waves keep the beat.'},{n:'Memory',c:['#a9c79a','#dcebd0','#5b8a4a'],q:'Keep the small moments, they glow like lanterns.'}],cur=0,tv=document.getElementById('posts'),rd=document.getElementById('read');
-document.getElementById('back').onclick=function(){if(!rd.hidden){tiles(cur);ov.scrollTop=0}else{ov.classList.remove('on');document.body.style.overflow=''}};
-function nm(i,k){return (S[i].names||[])[k-1]||''}
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
-function tiles(i){cur=i;var t=T[i],s=ov.style,h='',cnt=S[i].n||6;s.setProperty('--p1',t.c[0]);s.setProperty('--p2',t.c[1]);s.setProperty('--p3',t.c[2]);
-for(var k=1;k<=cnt;k++){var n=nm(i,k),num=k<10?'0'+k:''+k;
-h+='<button class="tile" onclick="read('+k+')"><span class="roof"></span><span class="tb"><i>'+num+'</i><b>'+(n||(t.n+' '+k))+'</b><small>'+S[i].jp+'</small><span class="door"></span></span></button>'}
-tv.innerHTML=h;tv.hidden=false;rd.hidden=true;document.getElementById('ovd').hidden=false}
-function read(k){var t=T[cur],n=t.n,key='post'+cur+'_'+k,d=ld(key),mx=S[cur].n||6,ttl=nm(cur,k)||('Your '+n.toLowerCase()+' title goes here');
-var df='<p class="meta">'+n+' '+k+' · add a date</p><h3>'+ttl+'</h3><p class="lead">Tap anywhere on this page and start writing. Tell the story the way you would to a friend on a seaside bench.</p><figure class="pol"><div>add photo</div><figcaption>a little caption</figcaption></figure><p>Add more paragraphs, feelings and small details. Whatever you type here is saved on this device.</p><blockquote>'+t.q+'</blockquote><p>And end with something warm.</p>';
-var sc='<svg viewBox="0 0 400 120" preserveAspectRatio="xMidYMax slice"><rect width="400" height="120" fill="var(--p2)"/><circle cx="320" cy="42" r="20" fill="var(--p3)" opacity=".7"/><rect x="40" y="62" width="40" height="34" fill="var(--p1)"/><path d="M34 62l26-20 26 20z" fill="var(--p3)"/><rect x="95" y="70" width="34" height="26" fill="var(--p1)"/><path d="M90 70l22-17 22 17z" fill="var(--p3)"/><rect x="190" y="38" width="14" height="58" fill="#fff"/><rect x="188" y="30" width="18" height="9" fill="var(--p3)"/><path d="M0 100q25-10 50 0t50 0 50 0 50 0 50 0 50 0 50 0 50 0V120H0z" fill="var(--p1)"/></svg>';
-rd.innerHTML='<article class="paper"><div class="banner">'+sc+'</div><div class="pb" contenteditable spellcheck="false">'+(d||df)+'</div><div class="gal">'+gallery(cur,k)+'</div><div class="pn"><button onclick="read('+Math.max(1,k-1)+')">‹ prev</button><button onclick="tiles(cur)">all tiles</button><button onclick="read('+Math.min(mx,k+1)+')">next ›</button></div></article>';
-rd.querySelector('.pb').oninput=function(){sv(key,this.innerHTML)};
-rd.querySelectorAll('.shot img').forEach(function(im){
-im.onerror=function(){var f=im.parentNode;if(f&&f.parentNode)f.parentNode.removeChild(f)};
-im.onclick=function(){lb.querySelector('img').src=im.src;lb.hidden=false}});
-tv.hidden=true;rd.hidden=false;document.getElementById('ovd').hidden=true;ov.scrollTop=0}
-/* ---- photos from the images/ folder ---- */
-function gallery(i,k){var list=(S[i].imgs||[])[k-1]||[];
-if(!list.length)return '<div class="gal-grid"><div class="addph" style="grid-column:1/-1">📷<br>Photos for this story will appear here</div></div>';
-var h='<div class="gal-grid">';
-list.forEach(function(p){var f=Array.isArray(p)?p[0]:p,c=Array.isArray(p)?(p[1]||''):'';
-h+='<figure class="shot"><img loading="lazy" alt="'+esc(c||nm(i,k)||'blog photo')+'" src="'+esc(IMG_DIR+f)+'"><figcaption>'+esc(c)+'</figcaption></figure>'});
-return h+'</div>'}
-var lb=document.getElementById('lb');
-lb.onclick=function(){lb.hidden=true};
-document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.hidden=true});
-function ld(k){try{return localStorage.getItem(k)}catch(e){return null}}
-function sv(k,v){try{localStorage.setItem(k,v)}catch(e){}}
-var ph=document.getElementById('photo');
-function show(u){ph.innerHTML='<img alt="me" src="'+u+'"><input type="file" id="file" accept="image/*" hidden>';bind()}
-function bind(){document.getElementById('file').onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();
-r.onload=function(){var im=new Image();im.onload=function(){var c=document.createElement('canvas'),m=360,k=Math.min(1,m/Math.max(im.width,im.height));
-c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);var u=c.toDataURL('image/jpeg',.82);show(u);sv('photo',u)};im.src=r.result};r.readAsDataURL(f)}}
-bind();var p=ld('photo');if(p)show(p);
-['name','intro'].forEach(function(id){var el=document.getElementById(id),v=ld(id);if(v)el.textContent=v;el.oninput=function(){sv(id,el.textContent)}});
-var mb=document.getElementById('mode'),r=document.documentElement;
-mb.onclick=function(){var d=r.getAttribute('data-theme')==='dark'||(!r.getAttribute('data-theme')&&matchMedia('(prefers-color-scheme:dark)').matches);
-r.setAttribute('data-theme',d?'light':'dark');mb.textContent=d?'🌙':'☀️'};
-</script>
+  <div id="home" class="page">
+    <div class="hero" id="hero">
+      <header class="topbar">
+        <button class="brand" onclick="goHome()">VK · 旅人</button>
+        <div class="actions">
+          <button class="round" id="themeButton"
+            onclick="toggleTheme()" aria-label="Toggle day and night">
+            ☀️
+          </button>
+        </div>
+      </header>
+
+      <div class="celestial"></div>
+      <div class="cloud one">☁</div>
+      <div class="cloud two">☁</div>
+      <div class="mountain"></div>
+      <div class="sea"></div>
+      <div class="vertical">海辺の町で、のんびり暮らす</div>
+      <div class="vertical right">今日もいい日になりますように</div>
+
+      <div class="hero-copy">
+        <div class="eyebrow">welcome, traveler ⚔️</div>
+        <h1>Somewhere,<br>Beyond the Noise.</h1>
+        <p>
+          A little seaside village for stories, songs,<br>
+          adventures and everything in between.
+        </p>
+        <button class="primary" onclick="enterVillage()">
+          Enter the Village →
+        </button>
+      </div>
+
+      <div class="village" aria-hidden="true">
+        <div class="building"></div>
+        <div class="building"></div>
+        <div class="building"></div>
+        <div class="building"></div>
+      </div>
+      <div class="lantern" aria-hidden="true">🏮</div>
+    </div>
+
+    <section id="village-section" class="section">
+      <div class="section-title">
+        <h2>Come on in 🍵</h2>
+        <p>いらっしゃい · There is always room for one more.</p>
+      </div>
+
+      <div class="destinations">
+        <button class="destination" onclick="openPage('blogs')">
+          <div class="emoji">📜</div>
+          <h3>Story House</h3>
+          <p>thoughts & little stories</p>
+          <small>日記</small>
+        </button>
+        <button class="destination" onclick="openPage('trips')">
+          <div class="emoji">⛩️</div>
+          <h3>The Harbor</h3>
+          <p>places & wanderings</p>
+          <small>旅</small>
+        </button>
+        <button class="destination" onclick="openPage('music')">
+          <div class="emoji">🍵</div>
+          <h3>The Teahouse</h3>
+          <p>playlists & sounds</p>
+          <small>音楽</small>
+        </button>
+        <button class="destination" onclick="openPage('memories')">
+          <div class="emoji">🏮</div>
+          <h3>Memory Lane</h3>
+          <p>moments worth keeping</p>
+          <small>思い出</small>
+        </button>
+      </div>
+    </section>
+    <footer>また明日 · see you tomorrow 🌊</footer>
+  </div>
+
+  <main id="blogs" class="page interior hidden">
+    <button class="back" onclick="goHome()">← Back to Village</button>
+
+    <div class="interior-header">
+      <div>
+        <h2>📜 Blogs</h2>
+        <p class="subtitle">Slow thoughts from my slow days.</p>
+      </div>
+      <div class="japanese-side">日記の記録</div>
+    </div>
+
+    <div class="houses" id="houses"></div>
+  </main>
+
+  <main id="trips" class="page interior hidden">
+    <button class="back" onclick="goHome()">← Back to Village</button>
+    <div class="interior-header">
+      <div>
+        <h2>⛩️ The Harbor</h2>
+        <p class="subtitle">Some roads are worth getting lost on.</p>
+      </div>
+      <div class="japanese-side">旅の記録</div>
+    </div>
+    <div class="simple-grid" id="tripsGrid"></div>
+  </main>
+
+  <main id="music" class="page interior hidden">
+    <button class="back" onclick="goHome()">← Back to Village</button>
+    <div class="interior-header">
+      <div>
+        <h2>🍵 The Teahouse</h2>
+        <p class="subtitle">A little music for a little while.</p>
+      </div>
+      <div class="japanese-side">音楽の時間</div>
+    </div>
+    <div class="simple-grid" id="musicGrid"></div>
+  </main>
+
+  <main id="memories" class="page interior hidden">
+    <button class="back" onclick="goHome()">← Back to Village</button>
+    <div class="interior-header">
+      <div>
+        <h2>🏮 Memory Lane</h2>
+        <p class="subtitle">Little moments, long memories.</p>
+      </div>
+      <div class="japanese-side">思い出</div>
+    </div>
+    <div class="simple-grid" id="memoriesGrid"></div>
+
+    <div class="guestbook">
+      <h2>Leave a little note ✉️</h2>
+      <p>Every traveler has a story.</p>
+      <form id="guestForm">
+        <label for="guestName">Your name</label>
+        <input id="guestName" maxlength="50" required
+          placeholder="A wandering friend">
+        <label for="guestMessage">Your message</label>
+        <textarea id="guestMessage" maxlength="500" required
+          placeholder="Something nice to leave behind..."></textarea>
+        <button class="primary" type="submit">Leave a note</button>
+      </form>
+      <p style="font-size:13px;color:#c7b9a8">
+        Notes are saved only in this browser, not shared publicly.
+      </p>
+      <div id="guestMessages"></div>
+    </div>
+  </main>
+
+  <div class="reader hidden" id="reader"
+    role="dialog" aria-modal="true" aria-labelledby="readerTitle">
+    <article class="reader-card">
+      <button class="back" onclick="closeReader()">← Close Story</button>
+      <div class="eyebrow" id="readerNumber"></div>
+      <h2 id="readerTitle"></h2>
+      <p id="readerText"></p>
+      <p style="color:#a27c69">— VK · 日記</p>
+    </article>
+  </div>
+
+  <button class="cat" onclick="catMessage()"
+    aria-label="Say hello to the village cat">🐈</button>
+  <div class="toast hidden" id="toast" role="status"></div>
+
+  <script>
+    // Replace the placeholder story bodies with your actual writing.
+    const blogs = [
+      {
+        title:"The Beach",
+        body:"The sea has a strange way of making everything feel a little lighter. This is where my story begins."
+      },
+      {
+        title:"The Night",
+        body:"Some nights are quiet enough to hear the thoughts we spend the day avoiding."
+      },
+      {
+        title:"There you were",
+        body:"Some people enter our stories so unexpectedly that we forget what the pages looked like before."
+      },
+      {
+        title:"The Summer I met Her",
+        body:"There are summers we remember for the weather, and others we remember for the people."
+      },
+      {
+        title:"To the Girl who was not part of the plan",
+        body:"Not every beautiful chapter was written into the original plan."
+      },
+      {
+        title:"Is it Meant to be..",
+        body:"Maybe the answer is not always something we are meant to find right away."
+      },
+      {
+        title:"Will there be a Perfect Ending",
+        body:"Perhaps a perfect ending is simply one that feels true to the journey."
+      },
+      {
+        title:"Blog 8",
+        body:"A new story will find its way into this little house soon."
+      },
+      {
+        title:"Blog 9",
+        body:"A new story will find its way into this little house soon."
+      },
+      {
+        title:"Blog 10",
+        body:"A new story will find its way into this little house soon."
+      }
+    ];
+
+    const houses = document.getElementById("houses");
+
+    blogs.forEach((blog,index) => {
+      const house = document.createElement("button");
+      house.className = "house";
+      house.setAttribute("aria-label","Read " + blog.title);
+      house.innerHTML = `
+        <div class="roof"></div>
+        <div class="house-body">
+          <span class="number">${String(index+1).padStart(2,"0")}</span>
+          <h3></h3>
+          <span class="jp">日記</span>
+          <span class="door"></span>
+        </div>`;
+      house.querySelector("h3").textContent = blog.title;
+      house.addEventListener("click",() => openStory(index));
+      houses.appendChild(house);
+    });
+
+    function openStory(index) {
+      const blog = blogs[index];
+      document.getElementById("readerNumber").textContent =
+        "CHAPTER " + String(index+1).padStart(2,"0");
+      document.getElementById("readerTitle").textContent = blog.title;
+      document.getElementById("readerText").textContent = blog.body;
+      document.getElementById("reader").classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+      document.querySelector("#reader .back").focus();
+    }
+
+    function closeReader() {
+      document.getElementById("reader").classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    document.addEventListener("keydown",event => {
+      if(event.key === "Escape") closeReader();
+    });
+
+    const pages = ["home","blogs","trips","music","memories"];
+
+    function openPage(name) {
+      if(!pages.includes(name)) name = "home";
+      closeReader();
+      pages.forEach(page => {
+        document.getElementById(page).classList.toggle(
+          "hidden",page !== name
+        );
+      });
+      window.scrollTo(0,0);
+      history.replaceState(null,"",
+        name === "home" ? location.pathname : "#" + name
+      );
+    }
+
+    function goHome() {
+      openPage("home");
+    }
+
+    function enterVillage() {
+      document.getElementById("village-section")
+        .scrollIntoView({behavior:"smooth"});
+    }
+
+    let isNight = localStorage.getItem("vk-night") === "true";
+
+    function updateTheme() {
+      document.getElementById("hero")
+        .classList.toggle("night",isNight);
+      document.getElementById("themeButton").textContent =
+        isNight ? "🌙" : "☀️";
+      localStorage.setItem("vk-night",String(isNight));
+    }
+
+    function toggleTheme() {
+      isNight = !isNight;
+      updateTheme();
+    }
+
+    updateTheme();
+
+    const trips = [
+      ["🌊","Seaside Wanderings","The sound of waves and a road with no hurry."],
+      ["🏔️","Mountain Trails","For the days when the world feels too loud."],
+      ["🚉","Unexpected Stops","Sometimes the detour becomes the destination."]
+    ];
+
+    const music = [
+      ["🎧","After Midnight","Songs for when the world is asleep."],
+      ["☕","Slow Mornings","A little warmth in every note."],
+      ["🌧️","Rainy Day Radio","Music that sounds better with rain."]
+    ];
+
+    const memories = [
+      ["📷","The Little Things","Ordinary moments that became extraordinary."],
+      ["🎞️","Old Photographs","Some memories never really grow old."],
+      ["✨","Still to Come","A space for all the stories yet to happen."]
+    ];
+
+    function renderCards(id,items) {
+      const container = document.getElementById(id);
+      items.forEach(([emoji,title,description]) => {
+        const card = document.createElement("div");
+        card.className = "simple-card";
+        const symbol = document.createElement("div");
+        symbol.className = "emoji";
+        symbol.textContent = emoji;
+        const heading = document.createElement("h3");
+        heading.textContent = title;
+        const text = document.createElement("p");
+        text.textContent = description;
+        card.append(symbol,heading,text);
+        container.appendChild(card);
+      });
+    }
+
+    renderCards("tripsGrid",trips);
+    renderCards("musicGrid",music);
+    renderCards("memoriesGrid",memories);
+
+    const catLines = [
+      "The village cat has decided you are acceptable. 🐾",
+      "A wise samurai knows when to take a nap.",
+      "No quests today. Only snacks.",
+      "The sea called. It says you're doing fine.",
+      "Plot twist: the cat owns the village.",
+      "Even wandering warriors need tea breaks. 🍵"
+    ];
+
+    let toastTimer;
+
+    function catMessage() {
+      const toast = document.getElementById("toast");
+      toast.textContent = catLines[
+        Math.floor(Math.random()*catLines.length)
+      ];
+      toast.classList.remove("hidden");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.add("hidden");
+      },3500);
+    }
+
+    const guestKey = "vk-village-guestbook";
+
+    function getGuestMessages() {
+      try {
+        return JSON.parse(localStorage.getItem(guestKey)) || [];
+      } catch {
+        return [];
+      }
+    }
+
+    function renderGuestMessages() {
+      const container = document.getElementById("guestMessages");
+      container.replaceChildren();
+      getGuestMessages().forEach(entry => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "message";
+        const name = document.createElement("strong");
+        name.textContent = entry.name;
+        const message = document.createElement("p");
+        message.textContent = entry.message;
+        wrapper.append(name,message);
+        container.appendChild(wrapper);
+      });
+    }
+
+    document.getElementById("guestForm").addEventListener(
+      "submit",event => {
+        event.preventDefault();
+        const name = document.getElementById("guestName").value.trim();
+        const message = document.getElementById("guestMessage").value.trim();
+        if(!name || !message) return;
+        const entries = getGuestMessages();
+        entries.unshift({name,message});
+        localStorage.setItem(
+          guestKey,JSON.stringify(entries.slice(0,30))
+        );
+        event.target.reset();
+        renderGuestMessages();
+      }
+    );
+
+    renderGuestMessages();
+
+    const initialPage = location.hash.slice(1);
+    if(pages.includes(initialPage) && initialPage !== "home") {
+      openPage(initialPage);
+    }
+  </script>
 </body>
 </html>
