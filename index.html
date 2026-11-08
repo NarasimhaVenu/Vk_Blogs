@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -389,6 +388,102 @@
     .reader-card h2 {font-size:34px}
     .reader-card p {line-height:2;font-size:17px}
     .reader-card .back {margin-bottom:12px}
+    .reader-card .eyebrow {color:#a8553a}
+
+    /* ---- story text ---- */
+    .story p {margin:0 0 1.1em}
+    .story blockquote {
+      margin:1.4em 0;
+      padding:.5em 1.1em;
+      border-left:4px solid #c9795c;
+      font-family:Kalam,cursive;
+      font-size:22px;
+      line-height:1.6;
+      color:#a8553a;
+      background:#c9795c14;
+    }
+    .story .soon {color:#7d6f64;font-style:italic}
+
+    /* ---- story photos ---- */
+    .story-photos {
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+      gap:24px 18px;
+      margin:30px 0 10px;
+    }
+    .shot {
+      margin:0;
+      background:#fff;
+      padding:8px 8px 4px;
+      box-shadow:0 4px 12px #0003;
+      transform:rotate(-2deg);
+      transition:transform .25s;
+    }
+    .shot:nth-child(even) {transform:rotate(2deg)}
+    .shot:hover {transform:rotate(0) scale(1.04)}
+    .shot img {
+      display:block;
+      width:100%;
+      aspect-ratio:1;
+      object-fit:cover;
+      cursor:zoom-in;
+      background:#d0e7ee;
+    }
+    .shot figcaption {
+      min-height:28px;
+      padding-top:4px;
+      font-family:Kalam,cursive;
+      font-size:15px;
+      line-height:1.3;
+      text-align:center;
+      color:#4d3835;
+    }
+    .addph {
+      grid-column:1/-1;
+      text-align:center;
+      padding:22px 16px;
+      border:2px dashed #7db6c9;
+      border-radius:14px;
+      background:#7db6c91f;
+      color:#5d7d88;
+      font-size:15px;
+      line-height:1.7;
+    }
+    .story-nav {
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:22px;
+    }
+    .story-nav button {
+      border:2px solid #7db6c9;
+      border-radius:25px;
+      background:transparent;
+      color:#3b3835;
+      padding:8px 18px;
+    }
+    .story-nav button:disabled {opacity:.35;cursor:default}
+    .signoff {color:#a27c69;margin-bottom:0}
+
+    .lightbox {
+      position:fixed;
+      z-index:110;
+      inset:0;
+      background:#000000d0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      cursor:zoom-out;
+    }
+    .lightbox img {
+      max-width:100%;
+      max-height:100%;
+      object-fit:contain;
+      border-radius:6px;
+      box-shadow:0 10px 40px #000a;
+    }
+
     .simple-grid {
       display:grid;
       grid-template-columns:repeat(3,1fr);
@@ -636,13 +731,22 @@
 
   <div class="reader hidden" id="reader"
     role="dialog" aria-modal="true" aria-labelledby="readerTitle">
-    <article class="reader-card">
+    <article class="reader-card" id="readerCard">
       <button class="back" onclick="closeReader()">← Close Story</button>
       <div class="eyebrow" id="readerNumber"></div>
       <h2 id="readerTitle"></h2>
-      <p id="readerText"></p>
-      <p style="color:#a27c69">— VK · 日記</p>
+      <div class="story" id="readerText"></div>
+      <div class="story-photos" id="readerPhotos"></div>
+      <div class="story-nav">
+        <button id="prevStory" onclick="stepStory(-1)">‹ Previous</button>
+        <button id="nextStory" onclick="stepStory(1)">Next ›</button>
+      </div>
+      <p class="signoff">— VK · 日記</p>
     </article>
+  </div>
+
+  <div class="lightbox hidden" id="lightbox" onclick="closeLightbox()">
+    <img alt="">
   </div>
 
   <button class="cat" onclick="catMessage()"
@@ -650,56 +754,154 @@
   <div class="toast hidden" id="toast" role="status"></div>
 
   <script>
-    // Replace the placeholder story bodies with your actual writing.
+    /* =====================================================================
+       HOW TO WRITE A BLOG  (this is the only part you need to edit)
+
+       Every blog has its own box:
+
+         {
+           title:  "The Beach",              <- name on the little house
+           date:   "12 June 2026",           <- optional, "" to hide
+           text:`                            <- your story goes between the
+                                                two backticks ` `
+       First paragraph goes here.
+
+       A blank line starts a new paragraph.
+
+       > A line starting with "> " becomes a handwritten pull-quote.
+       `,
+           quote:  "",                       <- optional closing quote
+           images: ["beach1.jpg", ["beach2.jpg","Golden hour"]]
+         }
+
+       RULES
+       - Type normally. Apostrophes ' and quotes " are fine inside the text.
+       - Do NOT type a backtick ` or the two characters ${ inside the text.
+       - Keep the comma after each closing }  (except the very last blog).
+       - Photos: upload them into the "images" folder of your repo, then
+         list the file names in images:[ ]. Use ["file.jpg","caption"]
+         to add a caption. File names are case-sensitive; avoid spaces.
+       ===================================================================== */
+    const IMG_DIR = "images/";
+
     const blogs = [
+
+      /* ---------- Blog 1 ---------- */
       {
         title:"The Beach",
-        body:"The sea has a strange way of making everything feel a little lighter. This is where my story begins."
+        date:"",
+        text:`
+The sea has a strange way of making everything feel a little lighter. This is where my story begins.
+
+Replace this with the rest of your story. Start a new paragraph after a blank line.
+`,
+        quote:"",
+        images:[]
       },
+
+      /* ---------- Blog 2 ---------- */
       {
         title:"The Night",
-        body:"Some nights are quiet enough to hear the thoughts we spend the day avoiding."
+        date:"",
+        text:`
+Some nights are quiet enough to hear the thoughts we spend the day avoiding.
+`,
+        quote:"",
+        images:[]
       },
+
+      /* ---------- Blog 3 ---------- */
       {
         title:"There you were",
-        body:"Some people enter our stories so unexpectedly that we forget what the pages looked like before."
+        date:"",
+        text:`
+Some people enter our stories so unexpectedly that we forget what the pages looked like before.
+`,
+        quote:"",
+        images:[]
       },
+
+      /* ---------- Blog 4 ---------- */
       {
         title:"The Summer I met Her",
-        body:"There are summers we remember for the weather, and others we remember for the people."
+        date:"",
+        text:`
+There are summers we remember for the weather, and others we remember for the people.
+`,
+        quote:"",
+        images:[]
       },
+
+      /* ---------- Blog 5 ---------- */
       {
         title:"To the Girl who was not part of the plan",
-        body:"Not every beautiful chapter was written into the original plan."
+        date:"",
+        text:`
+Not every beautiful chapter was written into the original plan.
+`,
+        quote:"",
+        images:[]
       },
+
+      /* ---------- Blog 6 ---------- */
       {
         title:"Is it Meant to be..",
-        body:"Maybe the answer is not always something we are meant to find right away."
+        date:"",
+        text:`
+Maybe the answer is not always something we are meant to find right away.
+`,
+        quote:"",
+        images:[]
       },
+
+      /* ---------- Blog 7 ---------- */
       {
         title:"Will there be a Perfect Ending",
-        body:"Perhaps a perfect ending is simply one that feels true to the journey."
+        date:"",
+        text:`
+Perhaps a perfect ending is simply one that feels true to the journey.
+`,
+        quote:"",
+        images:[]
       },
+
+      /* ---------- Blog 8 ---------- */
       {
         title:"Blog 8",
-        body:"A new story will find its way into this little house soon."
+        date:"",
+        text:``,
+        quote:"",
+        images:[]
       },
+
+      /* ---------- Blog 9 ---------- */
       {
         title:"Blog 9",
-        body:"A new story will find its way into this little house soon."
+        date:"",
+        text:``,
+        quote:"",
+        images:[]
       },
+
+      /* ---------- Blog 10 ---------- */
       {
         title:"Blog 10",
-        body:"A new story will find its way into this little house soon."
+        date:"",
+        text:``,
+        quote:"",
+        images:[]
       }
     ];
+
+    /* ======================= code below: no need to edit ======================= */
 
     const houses = document.getElementById("houses");
 
     blogs.forEach((blog,index) => {
       const house = document.createElement("button");
+      const name = blog.title || ("Blog " + (index+1));
       house.className = "house";
-      house.setAttribute("aria-label","Read " + blog.title);
+      house.setAttribute("aria-label","Read " + name);
       house.innerHTML = `
         <div class="roof"></div>
         <div class="house-body">
@@ -708,20 +910,113 @@
           <span class="jp">日記</span>
           <span class="door"></span>
         </div>`;
-      house.querySelector("h3").textContent = blog.title;
+      house.querySelector("h3").textContent = name;
       house.addEventListener("click",() => openStory(index));
       houses.appendChild(house);
     });
 
+    let currentStory = 0;
+
+    function renderStoryText(blog) {
+      const box = document.getElementById("readerText");
+      box.replaceChildren();
+
+      const paragraphs = String(blog.text || "")
+        .trim()
+        .split(/\n\s*\n/)
+        .map(part => part.trim())
+        .filter(Boolean);
+
+      paragraphs.forEach(part => {
+        if(/^>\s?/.test(part)) {
+          const quote = document.createElement("blockquote");
+          quote.textContent = part.replace(/^>\s?/gm,"");
+          box.appendChild(quote);
+        } else {
+          const p = document.createElement("p");
+          part.split("\n").forEach((line,i) => {
+            if(i) p.appendChild(document.createElement("br"));
+            p.appendChild(document.createTextNode(line));
+          });
+          box.appendChild(p);
+        }
+      });
+
+      if(blog.quote) {
+        const quote = document.createElement("blockquote");
+        quote.textContent = blog.quote;
+        box.appendChild(quote);
+      }
+
+      if(!box.children.length) {
+        const soon = document.createElement("p");
+        soon.className = "soon";
+        soon.textContent = "This story is still being written. Come back soon 🌊";
+        box.appendChild(soon);
+      }
+    }
+
+    function renderStoryPhotos(blog) {
+      const box = document.getElementById("readerPhotos");
+      box.replaceChildren();
+      const list = blog.images || [];
+
+      if(!list.length) {
+        const empty = document.createElement("div");
+        empty.className = "addph";
+        empty.append("📷",document.createElement("br"),
+          "Photos for this story will appear here");
+        box.appendChild(empty);
+        return;
+      }
+
+      list.forEach(item => {
+        const file = Array.isArray(item) ? item[0] : item;
+        const caption = Array.isArray(item) ? (item[1] || "") : "";
+
+        const figure = document.createElement("figure");
+        figure.className = "shot";
+
+        const img = document.createElement("img");
+        img.loading = "lazy";
+        img.alt = caption || blog.title || "Blog photo";
+        img.src = IMG_DIR + file;
+        img.addEventListener("error",() => figure.remove());
+        img.addEventListener("click",() => openLightbox(img.src));
+
+        const cap = document.createElement("figcaption");
+        cap.textContent = caption;
+
+        figure.append(img,cap);
+        box.appendChild(figure);
+      });
+    }
+
     function openStory(index) {
       const blog = blogs[index];
+      currentStory = index;
+
       document.getElementById("readerNumber").textContent =
-        "CHAPTER " + String(index+1).padStart(2,"0");
-      document.getElementById("readerTitle").textContent = blog.title;
-      document.getElementById("readerText").textContent = blog.body;
+        "CHAPTER " + String(index+1).padStart(2,"0") +
+        (blog.date ? " · " + blog.date : "");
+      document.getElementById("readerTitle").textContent =
+        blog.title || ("Blog " + (index+1));
+
+      renderStoryText(blog);
+      renderStoryPhotos(blog);
+
+      document.getElementById("prevStory").disabled = index === 0;
+      document.getElementById("nextStory").disabled = index === blogs.length - 1;
+
       document.getElementById("reader").classList.remove("hidden");
+      document.getElementById("readerCard").scrollTop = 0;
       document.body.style.overflow = "hidden";
       document.querySelector("#reader .back").focus();
+    }
+
+    function stepStory(direction) {
+      const next = currentStory + direction;
+      if(next >= 0 && next < blogs.length) openStory(next);
     }
 
     function closeReader() {
@@ -729,8 +1024,21 @@
       document.body.style.overflow = "";
     }
 
+    function openLightbox(src) {
+      const box = document.getElementById("lightbox");
+      box.querySelector("img").src = src;
+      box.classList.remove("hidden");
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").classList.add("hidden");
+    }
+
     document.addEventListener("keydown",event => {
-      if(event.key === "Escape") closeReader();
+      if(event.key !== "Escape") return;
+      const box = document.getElementById("lightbox");
+      if(!box.classList.contains("hidden")) closeLightbox();
+      else closeReader();
     });
 
     const pages = ["home","blogs","trips","music","memories"];
